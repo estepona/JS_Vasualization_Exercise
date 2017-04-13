@@ -1,4 +1,4 @@
-#### ECharts exercise
+## ECharts exercise
 
 Echarts is in my opinion one of the most user friendly libraries that I have explored, and much easier than even the most popular D3.js libraries.
 
