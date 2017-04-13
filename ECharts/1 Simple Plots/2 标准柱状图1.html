@@ -4,7 +4,7 @@
     <title>2 标准柱状图1</title>
 </head>
 <body>
-    <div id="main" style="height:400px;"></div>
+    <div id="main" style="height:400px; width:800px;"></div>
     
     <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
     <script type="text/javascript">
@@ -30,7 +30,7 @@
                         trigger: 'axis' //可以试下改成'item'
                     },
                     legend: {
-                        data: ['蒸发量','降水量']
+                        data: ['蒸发量','降水量', '测试量']
                     },
                     toolbox: {
                         show: true,
@@ -61,7 +61,7 @@
                             data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
                             markPoint: {
                                 data: [
-                                    {type: 'max', name: '最大值'},
+                                    {type: 'max', name: '最大值', symbolSize: 15},
                                     {type: 'min', name: '最小值'}
                                 ]
                             },
@@ -77,8 +77,8 @@
                             data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
                             markPoint: {
                                 data: [
-                                    {name: '年最高', value: 182.2, xAxis: 7, yAxis: 184, symbolSize: 18},
-                                    {name: '年最低', value: 2.3, xAxis: 11, yAxis: 4, symbolSize: 18}
+                                    {name: '年最高', value: 182.2, xAxis: 7, yAxis: 184, symbolSize: 15},
+                                    {name: '年最低', value: 2.3, xAxis: 11, yAxis: 4}
                                 ]
                             },
                             markLine: {
@@ -87,6 +87,22 @@
                                 ]
                             }
 
+                        },
+                        {
+                            name: '测试量',
+                            type: 'line',
+                            data: [10.0, 7.9, 2.0, 50.2, 201.6, 55.7, 125.6, 362.2, 22.6, 1.0, 100.4, 13.3],
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值', symbolSize: 15},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine: {
+                                data: [
+                                    {type: 'average', name: '平均值'}
+                                ]
+                            }
                         }                        
                     ]
                 }
