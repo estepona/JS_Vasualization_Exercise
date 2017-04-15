@@ -7,3 +7,5 @@ Please visit http://echarts.baidu.com/index.html for more examples and documenta
 ### Structure
 - 1 Simple Plots
 - 2 Plotting local data
+
+In English and 中文
