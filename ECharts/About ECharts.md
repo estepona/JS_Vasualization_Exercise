@@ -8,6 +8,6 @@ And make sure you have [echarts.min.js](http://echarts.baidu.com/download.html) 
 
 ### Structure
 - 1 Simple Plots
-- 2 Plotting local data
+- 2 Plotting with Asynchronous Loading 异步加载制图
 
 In English and 中文
