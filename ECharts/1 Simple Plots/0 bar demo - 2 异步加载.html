@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>0 bar demo - 2 异步加载</title>
+    <script src='../echarts.min.js'></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="height:400px"></div>
+    <!-- 引用jQuery -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>  
+    <script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('main')); 
+    // 显示标题，图例和空的坐标轴
+    myChart.setOption({
+        title: {
+            text: 'bar demo 异步加载'
+        },
+        tooltip: {},
+        toolbox: {
+            show: true,
+            feature: {
+                saveAsImage: {show: true}
+            },
+            top: 'center'
+        },
+        legend: {
+            data:['销量'],
+            left: 'right'
+        },
+        xAxis: {
+            data: []
+        },
+        yAxis: {},
+        series: [{
+            name: '销量',
+            type: 'bar',
+            data: []
+        }]
+    }); // setOption结束
+    
+    // 异步加载数据
+    $.get('../data/data_0 bar demo.json').done(function (data) {
+        // 填入数据
+        console.log('success');
+        console.dir(data); // 这里可以显示
+        console.dir(data.categories); // 这里可以显示
+        console.dir(data.data);
+        // finally
+        myChart.setOption({
+            xAxis: {
+                data: data.categories
+            },
+            series: [{
+                // 根据名字对应到相应的系列
+                name: '销量',
+                data: data.data
+            }]
+        }); // setOption结束 
+    });
+    </script>
+</body>
