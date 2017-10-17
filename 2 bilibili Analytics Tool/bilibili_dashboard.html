@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html>
+<title>bilibili Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- import Echarts -->
+<script src='http://echarts.baidu.com/dist/echarts.min.js'></script>
+<!-- import jQuery -->
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>  
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<!-- 引用的是下面的icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+</style>
+<body class="w3-light-grey">
+
+<!-- Top container -->
+<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+  <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
+  <span class="w3-bar-item w3-right">bilibili Analytics Tool</span>
+</div>
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+  <div class="w3-container w3-row">
+    <div class="w3-col s4">
+      <img src="" class="w3-circle w3-margin-right" style="width:46px" id="profile">
+    </div>
+    <div class="w3-col s8 w3-bar">
+      <span>Welcome, <strong id="uploader_name">bilibili uploader</strong></span><br>
+
+    </div>
+  </div>
+  <hr>
+  <div class="w3-container">
+    <h5>Dashboard</h5>
+  </div>
+  <div class="w3-bar-block">
+    <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
+    <a href="#header_dashbaord" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Overview</a>
+    <a href="#funnelchart_navi" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Turnover Rate</a>
+    <a href="#last10v_navi" class="w3-bar-item w3-button w3-padding"><i class="fa fa-file-video-o fa-fw"></i>  Last 10 Videos</a>
+    <a href="#allv_navi" class="w3-bar-item w3-button w3-padding"><i class="fa fa-video-camera fa-fw"></i>  All Videos</a>
+    <a href="#den_navi" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  Density Index</a>
+    <a href="#newstat_navi" class="w3-bar-item w3-button w3-padding"><i class="fa fa-laptop fa-fw"></i>  New Video Stats</a>
+    <a href="#comments_navi" class="w3-bar-item w3-button w3-padding"><i class="fa fa-comment fa-fw"></i>  Latest Comments</a>
+    <a href="#ue" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Increase User Engagement</a>    
+  </div>
+</nav>
+
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+
+<div class="w3-main" style="margin-left:300px;margin-top:43px;" id="header_dashbaord">
+
+  <!-- Header -->
+  <header class="w3-container" style="padding-top:22px">
+    <h5><b><i class="fa fa-dashboard"></i> My Dashboard</b></h5>
+    <style>
+    .anchor{
+      display: block;
+      height: 115px; /*same height as header*/
+      margin-top: -115px; /*same height as header*/
+      visibility: hidden;
+    }
+    </style>
+  </header>
+
+  <!-- 数据以喂狗组为例 -->
+  <!-- 首页数据一：粉丝数-Followers -->
+  <div class="w3-row-padding w3-margin-bottom">
+    <div class="w3-quarter">
+      <div class="w3-container w3-red w3-padding-16">
+        <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
+        <div class="w3-right">
+          <h3 id="follower"></h3>
+        </div>
+        <div class="w3-clear"></div>
+        <h4>Followers</h4>
+      </div>
+    </div>
+    <!-- 首页数据二：播放数-Views -->
+    <div class="w3-quarter">
+      <div class="w3-container w3-blue w3-padding-16">
+        <div class="w3-left"><i class="fa fa-eye w3-xxxlarge"></i></div>
+        <div class="w3-right">
+          <h3 id="total_view"></h3>
+        </div>
+        <div class="w3-clear"></div>
+        <h4>Views</h4>
+      </div>
+    </div>
+    <!-- 首页数据三：视频数-Videos -->
+    <div class="w3-quarter">
+      <div class="w3-container w3-lime w3-padding-16">
+        <div class="w3-left"><i class="fa fa-video-camera w3-xxxlarge"></i></div>
+        <div class="w3-right">
+          <h3 id="total_video"></h3>
+        </div>
+        <div class="w3-clear"></div>
+        <h4>Videos</h4>
+      </div>
+    </div>
+    <!-- 首页数据四：硬币-Coins -->
+    <div class="w3-quarter">
+      <div class="w3-container w3-orange w3-text-white w3-padding-16">
+        <div class="w3-left"><i class="fa fa-bitcoin w3-xxxlarge"></i></div>
+        <div class="w3-right">
+          <h3 id="total_coin"></h3>
+        </div>
+        <div class="w3-clear"></div>
+        <h4>Coins</h4>
+      </div>
+    </div>
+  </div>
+
+  <span class="anchor" id="funnelchart_navi"></span>  
+  <div class="w3-panel">
+    <div class="w3-row-padding" style="margin:0 -16px">
+      <!-- 漏斗图 - 转化率 -->
+      <div class="w3-third">
+        <h5>View-Danmaku-Coin Turnover Rate</h5>
+        <div id="funnelchart" style="width:80%; height:360%"></div>
+        <script type="text/javascript">
+        // 初始化ECharts
+        var myChart3 = echarts.init(document.getElementById('funnelchart'));
+        var option3 = {
+              tooltip: {
+                  trigger: 'item',
+                  formatter: "{a} <br/>{b} : {c}%"
+              },
+              // legend: {
+              //     data: ['View','Danmaku','Coin']
+              // },
+              series: [
+                  {
+                      name: 'Expected',
+                      type: 'funnel',
+                      left: '10%',
+                      width: '80%',
+                      top: '5%',
+                      label: {
+                          normal: {
+                              formatter: '{b}',
+                              textStyle: {
+                                fontWeight: 600
+                              }
+                          },
+                          emphasis: {
+                              position:'inside',
+                              formatter: '{b}Expected: {c}%'
+                          }
+                      },
+                      labelLine: {
+                          normal: {
+                              show: false
+                          }
+                      },
+                      itemStyle: {
+                          normal: {
+                              opacity: 0.7
+                          }
+                      },
+                      data: [
+                          {value: 100, name: 'View'},
+                          {value: 20,  name: 'Danmaku'},
+                          {value: 10,  name: 'Coin'}
+                      ]
+                  },
+                  {
+                      name: 'Actual',
+                      type: 'funnel',
+                      left: '10%',
+                      width: '80%',
+                      maxSize: '80%',
+                      top: '5%',
+                      label: {
+                          normal: {
+                              position: 'inside',
+                              formatter: '{c}%',
+                              textStyle: {
+                                  color: '#000000',
+                                  fontWeight: 600,
+                              }
+                          },
+                          emphasis: {
+                              position:'inside',
+                              formatter: '{b} Actual: {c}%'
+                          }
+                      },
+                      itemStyle: {
+                          normal: {
+                              opacity: 0.5,
+                              borderColor: '#fff',
+                              borderWidth: 2
+                          }
+                      },
+                      data: []
+                  }
+              ]
+          };
+          $.getJSON("data.json").done(function (data) {
+              console.log('success');
+              myChart3.setOption({
+                  series: [
+                    {
+                      name: 'Actual',
+                      data: [
+                          {value: 100, name: 'View'},
+                          {value: data.funnel_1,  name: 'Danmaku'},
+                          {value: data.funnel_2,  name: 'Coin'}
+                      ]
+                    }
+                  ]
+              }); // setOption结束
+              // change header data
+              document.getElementById("profile").src = data.profile;
+              document.getElementById("total_view").innerHTML = data.total_view;
+              document.getElementById("total_coin").innerHTML = data.total_coin;
+              document.getElementById("total_video").innerHTML = data.total_video;
+              document.getElementById("follower").innerHTML = data.follower;
+              document.getElementById("uploader_name").innerHTML = data.uploader_name;
+          });
+        // 启动
+        myChart3.setOption(option3);
+        </script>
+      </div>
+      <span class="anchor" id="last10v_navi"></span>  
+      <div class="w3-twothird">
+        <h5>Last 10 Videos</h5>
+        <div id="last10v" style="height:350px"></div>
+        <script type="text/javascript">
+        // 初始化ECharts
+        var myChart2 = echarts.init(document.getElementById('last10v'));
+        var option2 = {
+              color: ['#6497b1', '#ff4e50', ' #eac086'],
+              tooltip: {
+                  trigger: 'axis',
+                  axisPointer: {
+                      type: 'cross',
+                      crossStyle: {
+                          color: '#999'
+                      }
+                  },
+                  formatter: 'aid: {b}<br/>{a0}: {c0}<br/>{a1}: {c1}<br/>{a2}: {c2}<br/>'
+              },
+              toolbox: {
+                  feature: {
+                      dataView: {show: true, readOnly: false},
+                      magicType: {show: true, type: ['line', 'bar']},
+                      restore: {show: true},
+                      saveAsImage: {show: true}
+                  }
+              },
+              legend: {
+                  data:['View','Danmaku','Coin']
+              },
+              xAxis: [
+                  {
+                      name: "uploader's aid",
+                      nameLocation: 'middle',
+                      nameTextStyle: {
+                        fontWeight: 500,
+                        fontSize: 16
+                      },
+                      nameGap: 30,
+                      type: 'category',
+                      data: [],
+                      inverse: true,
+                      axisPointer: {
+                          type: 'shadow'
+                      }
+                  }
+              ],
+              yAxis: [
+                  {
+                      type: 'value',
+                      name: 'View',
+                      min: 0,
+                      axisLabel: {
+                          formatter: '{value}'
+                      }
+                  },
+                  {
+                      type: 'value',
+                      name: 'Danmaku & Coin',
+                      min: 0,
+                      axisLabel: {
+                          formatter: '{value}'
+                      }
+                  }
+              ],
+              series: [
+                  {
+                      name:'View',
+                      type:'bar',
+                      data:[],
+                      markLine: {
+                        data: [
+                          {type: 'average', name: 'Average View'}
+                        ]
+                      }
+                  },
+                  {
+                      name:'Danmaku',
+                      type:'line',
+                      yAxisIndex: 1,
+                      data:[]
+                  },
+                  {
+                      name:'Coin',
+                      type:'line',
+                      yAxisIndex: 1,
+                      data:[]
+                  }
+              ]
+          };
+          $.getJSON("data.json").done(function (data) {
+              myChart2.setOption({
+                  xAxis: {
+                    data: data.aid.slice(0,10)
+                  },
+                  series: [
+                    {
+                      name: 'View',
+                      data: data.view.slice(0,10)
+                    },
+                    {
+                      name: 'Danmaku',
+                      data: data.danmaku.slice(0,10)
+                    },
+                    {
+                      name: 'Coin',
+                      data: data.coin.slice(0,10)
+                    }
+                  ]
+              }); // setOption结束 
+          });
+          myChart2.setOption(option2);
+          </script>
+      </div>
+    </div>
+  </div>
+  <hr>
+
+  <span class="anchor" id="allv_navi"></span>
+  <div class="w3-container">
+    <h5>All Videos</h5>
+    <h6 style="color:grey">zoom axis to see details</h6>
+    <div id="allv" style="height:400px"></div>
+        <script type="text/javascript">
+        // 初始化ECharts
+        var myChart = echarts.init(document.getElementById('allv'));
+        var option = {
+              color: ['#6497b1', '#ff4e50', ' #eac086'],
+              tooltip: {
+                  trigger: 'axis',
+                  axisPointer: {
+                      type: 'cross',
+                      crossStyle: {
+                          color: '#999'
+                      }
+                  },
+                  formatter: 'aid: {b}<br/>{a0}: {c0}<br/>{a1}: {c1}<br/>{a2}: {c2}<br/>'
+              },
+              toolbox: {
+                  feature: {
+                      dataView: {show: true, readOnly: false},
+                      magicType: {show: true, type: ['line', 'bar']},
+                      restore: {show: true},
+                      saveAsImage: {show: true}
+                  }
+              },
+              legend: {
+                  data:['View','Danmaku','Coin']
+              },
+              dataZoom: [
+                  {
+                      id: 'dataZoomX',
+                      type: 'slider',
+                      xAxisIndex: [0],
+                      filterMode: 'filter'
+                  }
+              ],
+              xAxis: {
+                  name: "uploader's aid",
+                  show: false,
+                  nameLocation: 'middle',
+                  nameTextStyle: {
+                    fontWeight: 500,
+                    fontSize: 16
+                  },
+                  nameGap: 30,
+                  type: 'category',
+                  data: [],
+                  inverse: true,
+                  axisPointer: {
+                      type: 'shadow'
+                  }
+              },
+              yAxis: [
+                  {
+                      type: 'value',
+                      name: 'View',
+                      min: 0,
+                      axisLabel: {
+                          formatter: '{value}'
+                      }
+                  },
+                  {
+                      type: 'value',
+                      name: 'Danmaku & Coin',
+                      min: 0,
+                      axisLabel: {
+                          formatter: '{value}'
+                      }
+                  }
+              ],
+              series: [
+                  {
+                      name:'View',
+                      type:'bar',
+                      data:[],
+                      markLine: {
+                        data: [
+                          {type: 'average', name: 'Average View'}
+                        ]
+                      }
+                  },
+                  {
+                      name:'Danmaku',
+                      type:'line',
+                      yAxisIndex: 1,
+                      data:[],
+                      markPoint: {
+                        data : [
+                            {
+                              type : 'max', name: 'max',
+                              label: {
+                                normal: {
+                                  textStyle: {
+                                    color: '#000000'
+                                  }
+                                }
+                              }
+                            }
+                        ]
+                      }
+                  },
+                  {
+                      name:'Coin',
+                      type:'line',
+                      yAxisIndex: 1,
+                      data:[],
+                      markPoint: {
+                        data : [
+                            {
+                              type : 'max', name: 'max'
+                            }
+                        ]
+                      }
+                  }
+              ]
+          };
+          // import json
+          $.getJSON("data.json").done(function (data) {
+              // finally
+              myChart.setOption({
+                  xAxis: {
+                      name: "uploader's aid",
+                      data: data.aid
+                  },
+                  series: [
+                    {
+                      name: 'View',
+                      data: data.view
+                    },
+                    {
+                      name: 'Danmaku',
+                      data: data.danmaku
+                    },
+                    {
+                      name: 'Coin',
+                      data: data.coin
+                    }
+                  ]
+              }); // setOption结束 
+          });
+          myChart.setOption(option);
+          </script>
+  </div>
+  <hr>
+  
+  <span class="anchor" id="den_navi"></span>  
+  <div class="w3-container">
+    <h5>Density Index</h5>
+    <h6 style="color:grey">zoom axis to see details</h6>
+    <div id="density" style="height:400px"></div>
+        <script type="text/javascript">
+        // 初始化ECharts
+        var myChart1 = echarts.init(document.getElementById('density'));
+        var option1 = {
+              color: ['#6497b1', '#ff4e50', ' #eac086'],
+              tooltip: {
+                  trigger: 'axis',
+                  axisPointer: {
+                      type: 'cross',
+                      crossStyle: {
+                          color: '#999'
+                      }
+                  },
+                  formatter: 'aid: {b}<br/>{a0}: {c0}<br/>{a1}: {c1}<br/>{a2}: {c2}<br/>'
+              },
+              toolbox: {
+                  feature: {
+                      dataView: {show: true, readOnly: false},
+                      magicType: {show: true, type: ['line', 'bar']},
+                      restore: {show: true},
+                      saveAsImage: {show: true}
+                  }
+              },
+              legend: {
+                  data:['View/Second','Danmaku/Second','Coin/Second']
+              },
+              dataZoom: [
+                  {
+                      id: 'dataZoomX',
+                      type: 'slider',
+                      xAxisIndex: [0],
+                      filterMode: 'filter'
+                  }
+              ],
+              xAxis: {
+                  name: "uploader's aid",
+                  show: false,
+                  nameLocation: 'middle',
+                  nameTextStyle: {
+                    fontWeight: 500,
+                    fontSize: 16
+                  },
+                  nameGap: 30,
+                  type: 'category',
+                  data: [],
+                  inverse: true,
+                  axisPointer: {
+                      type: 'shadow'
+                  }
+              },
+              yAxis: [
+                  {
+                      type: 'value',
+                      name: 'View per Second',
+                      min: 0,
+                      axisLabel: {
+                          formatter: '{value}'
+                      }
+                  },
+                  {
+                      type: 'value',
+                      name: 'Danmaku & Coin per Second',
+                      min: 0,
+                      axisLabel: {
+                          formatter: '{value}'
+                      }
+                  }
+              ],
+              series: [
+                  {
+                      name:'View/Second',
+                      type:'bar',
+                      data:[],
+                      markLine: {
+                        data: [
+                          {type: 'average', name: 'Average View per Second'}
+                        ]
+                      }
+                  },
+                  {
+                      name:'Danmaku/Second',
+                      type:'line',
+                      yAxisIndex: 1,
+                      data:[],
+                      markPoint: {
+                        data : [
+                            {
+                              type : 'max', name: 'max',
+                              label: {
+                                    normal: {
+                                      textStyle: {
+                                        color: '#000000'
+                                      }
+                                    }
+                                  }
+                            }
+                        ]
+                      }
+                  },
+                  {
+                      name:'Coin/Second',
+                      type:'line',
+                      yAxisIndex: 1,
+                      data:[],
+                      markPoint: {
+                        data : [
+                            {type : 'max', name: 'max'}
+                        ]
+                      }
+                  }
+              ]
+          };
+          // import json
+          $.getJSON("data.json").done(function (data) {
+              // 填入数据
+              console.log('success');
+              console.dir(data); // 这里可以显示
+              // finally
+              myChart1.setOption({
+                  xAxis: {
+                      name: "uploader's aid",
+                      data: data.aid
+                  },
+                  series: [
+                    {
+                      data: data.dv 
+                    },
+                    {
+                      data: data.dd
+                    },
+                    {
+                      data: data.dc
+                    }
+                  ]
+              }); // setOption结束 
+          });
+          myChart1.setOption(option1);
+          </script>
+  </div>
+  <span class="anchor" id="newstat_navi"></span> 
+  <div class="w3-container">
+    <!-- load data -->
+    <script type="text/javascript">
+      $.getJSON("data.json").done(function (data) {
+        // New Video Stats
+        document.getElementById("v_cv").innerHTML = data.cv;
+        document.getElementById("v_cv").style.width = data.cv;
+        document.getElementById("v_cd").innerHTML = data.cd;
+        document.getElementById("v_cd").style.width = data.cd;
+        document.getElementById("v_cc").innerHTML = data.cc;
+        document.getElementById("v_cc").style.width = data.cc;
+        // test
+        console.dir(data.view);
+        console.dir(data.view.slice(-10,));
+        console.dir(data.comment_msg[0]);
+        // Comments
+        document.getElementById("comment_img_1").src = data.comment_face[0];
+        document.getElementById("comment_img_2").src = data.comment_face[1];
+        document.getElementById("comment_img_3").src = data.comment_face[2];
+        document.getElementById("comment_nick_1").textContent = data.comment_nick[0];
+        document.getElementById("comment_nick_2").innerHTML = data.comment_nick[1];
+        document.getElementById("comment_nick_3").innerHTML = data.comment_nick[2];
+        document.getElementById("comment_time_1").innerHTML = data.comment_time[0];
+        document.getElementById("comment_time_2").textContent = data.comment_time[1];
+        document.getElementById("comment_time_3").textContent = data.comment_time[2];
+        document.getElementById("comment_msg_1").innerHTML = data.comment_msg[0];
+        document.getElementById("comment_msg_2").innerHTML = data.comment_msg[1];
+        document.getElementById("comment_msg_3").innerHTML = data.comment_msg[2];
+      });
+    </script>
+
+    <h5>New Video Stats</h5>
+    <h6 style="color:grey">until today, how your latest video performs against the average. Don't worry! Low stat means normal, average stat means hot!</h6>
+    <p>Number of Views</p>
+    <div class="w3-grey">
+      <div class="w3-container w3-center w3-padding w3-green" style="width:" id="v_cv"></div>
+    </div>
+
+    <p>Number of Danmakus</p>
+    <div class="w3-grey">
+      <div class="w3-container w3-center w3-padding w3-orange" style="width:" id="v_cd"></div>
+    </div>
+
+    <p>Number of Coins</p>
+    <div class="w3-grey">
+      <div class="w3-container w3-center w3-padding w3-red" style="width:" id="v_cc"></div>
+    </div>
+  </div>
+  <hr>
+
+  <span class="anchor" id="comments_navi"></span>
+  <div class="w3-container">
+    <h5>Latest Comments</h5>
+    <div class="w3-row">
+      <div class="w3-col m2 text-center">
+        <img class="w3-circle" src="" style="width:96px;height:96px" id="comment_img_1">
+      </div>
+      <div class="w3-col m10 w3-container">
+        <h4 id="comment_nick_1"></h4>
+        <h5 class="w3-opacity w3-medium" id="comment_time_1"></h5>
+        <p id="comment_msg_1"></p><br>
+      </div>
+    </div>
+
+    <div class="w3-row">
+      <div class="w3-col m2 text-center">
+        <img class="w3-circle" src="" style="width:96px;height:96px" id="comment_img_2">
+      </div>
+      <div class="w3-col m10 w3-container">
+        <h4 id="comment_nick_2"></h4>
+        <h5 class="w3-opacity w3-medium" id="comment_time_2"></h5>
+        <p id="comment_msg_2"></p><br>
+      </div>
+    </div>
+        <div class="w3-row">
+      <div class="w3-col m2 text-center">
+        <img class="w3-circle" src="" style="width:96px;height:96px" id="comment_img_3">
+      </div>
+      <div class="w3-col m10 w3-container">
+        <h4 id="comment_nick_3"></h4>
+        <h5 class="w3-opacity w3-medium" id="comment_time_3"></h5>
+        <p id="comment_msg_3"></p><br>
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <span class="anchor" id="ue"></span>
+  <div class="w3-container">
+    <h5>Increase your User Engagement</h5>
+    <h6 style="color:grey">below are some simple but super useful <b>suggestions</b>, or hints to increase your user engagement based on real studies</h6>
+    <ul class="w3-ul w3-card-4 w3-white">
+      <li class="w3-padding-16">
+        <span class="w3-large"><u>Provide descriptions</u> - the game you're playing, current status, etc...</span><br>
+      </li>
+      <li class="w3-padding-16">
+        <span class="w3-large"><u>Redirect</u> the audience to your other social media.</span><br>
+      </li>
+      <li class="w3-padding-16">
+        <span class="w3-large"><u>Most importantly</u> - draw the audience attention within 2 minutes! Otherwise they may just leave.</span><br>
+      </li>
+    </ul>
+  </div>
+  <hr>
+
+  <!-- Footer -->
+  <footer class="w3-container w3-padding-16 w3-dark-grey">
+    <h4> </h4>
+    <p style="text-align:center">Powered for <a href="http://www.bilibili.com">bilibili.com</a></p>
+    <p style="text-align:center">Created by <a href="https://estepona.github.io/about" target="_blank">Freddie Zhang</a> ©-2017</p>
+  </footer>
+
+  <!-- End page content -->
+</div>
+
+<script>
+// Get the Sidebar
+var mySidebar = document.getElementById("mySidebar");
+
+// Get the DIV with overlay effect
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidebar, and add overlay effect
+function w3_open() {
+    if (mySidebar.style.display === 'block') {
+        mySidebar.style.display = 'none';
+        overlayBg.style.display = "none";
+    } else {
+        mySidebar.style.display = 'block';
+        overlayBg.style.display = "block";
+    }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+    mySidebar.style.display = "none";
+    overlayBg.style.display = "none";
+}
+</script>
+
+</body>
+</html>
