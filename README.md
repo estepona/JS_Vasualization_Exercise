@@ -1,4 +1,4 @@
-## JavaScript Vasualization
+## Vasualization with JavaScript
 This repository contains my exercises and projects on visualizations with JS libraries
 
 ### Structure
