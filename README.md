@@ -6,8 +6,10 @@ This repository contains my exercises and projects on visualizations with JS lib
 
   This folder contains exercises on [ECharts](http://echarts.baidu.com/index.html) library, a powerful yet easy-to-use JS visualization library powered by Baidu. 
   
-  Below is one simple example of what ECharts can make.
+  Below are two simple examples of what ECharts can make.
   ![flower chart](https://raw.githubusercontent.com/estepona/Visualization_JavaScript/master/1%20ECharts/1%20Simple%20Plots/5%20%E8%8A%B1%E7%93%A3%E9%A5%BC%E5%9B%BE.png)
+  
+  ![line chart](https://raw.githubusercontent.com/estepona/Visualization_JavaScript/master/1%20ECharts/1%20Simple%20Plots/3%20%E6%9F%B1%E7%8A%B6%E5%9B%BE%E6%90%AD%E9%85%8D%E6%97%B6%E9%97%B4%E8%BD%B4.png)
 - **2 bilibili Analytics Tool**
 
   This tool I built in a course project takes in data collected from bilibili with a web crawler, and outputs a dashboard visualizing the most important measurements of a uploader's historical activities. 
