@@ -11,7 +11,7 @@ This repository contains my exercises and projects on visualizations with JS lib
 
   ![bilibili screenshot](https://raw.githubusercontent.com/estepona/Visualization_JavaScript/master/2%20bilibili%20Analytics%20Tool/bilibili.png)
   
-  Click **[here](http://www.terpconnect.umd.edu/~bz0045/INST741_finalProject/bilibili_dashboard.html)** to have a quick look at the dashboard. It is currently hosted on my school's server, and last updated on May 8, 2017.
+  Click **[here](http://www.terpconnect.umd.edu/~bz0045/INST741_finalProject/bilibili_dashboard.html)** to have a quick look at the interactive dashboard. It is currently hosted on my school's server, and last updated on May 8, 2017.
 
   In the folder you can find three files: a mind map of the overall organization of data structure, a Python web crawler, the dashboard(.html), and a json file that stores all the data collected with the web crawler. To use this tool, simply download three files, run the web crawler with the uploader's ID of your choice, and open the dashboard in a server environment. To run it locally, type the following command in a terminal:
 
